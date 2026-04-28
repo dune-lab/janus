@@ -1,12 +1,12 @@
 import { test, describe, it, expect, beforeAll, beforeEach } from '@enxoval/testing';
 
-test.mock('../../src/adapters/atreides', () => ({
-  authenticateAtreides: test.fn(),
+test.mock('../../src/diplomat/http-client/atreides', () => ({
+  authenticate: test.fn(),
 }));
 
 import { buildApp } from '../../src/app';
 import { inject } from '@enxoval/http';
-import { authenticateAtreides } from '../../src/adapters/atreides';
+import { authenticate } from '../../src/diplomat/http-client/atreides';
 import { verify } from 'jsonwebtoken';
 
 const JWT_SECRET = 'test-secret';
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 describe('POST /auth/login', () => {
   it('returns 200 with token for valid credentials', async () => {
-    (authenticateAtreides as ReturnType<typeof test.fn>).mockResolvedValue({
+    (authenticate as ReturnType<typeof test.fn>).mockResolvedValue({
       id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
       email: 'alice@example.com',
       role: 'student',
@@ -37,7 +37,7 @@ describe('POST /auth/login', () => {
   });
 
   it('token payload contains userId and role', async () => {
-    (authenticateAtreides as ReturnType<typeof test.fn>).mockResolvedValue({
+    (authenticate as ReturnType<typeof test.fn>).mockResolvedValue({
       id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
       email: 'alice@example.com',
       role: 'student',
@@ -53,7 +53,7 @@ describe('POST /auth/login', () => {
 
   it('returns 401 when atreides rejects credentials', async () => {
     const { UnauthorizedError } = await import('@enxoval/types');
-    (authenticateAtreides as ReturnType<typeof test.fn>).mockRejectedValue(new UnauthorizedError('Invalid credentials'));
+    (authenticate as ReturnType<typeof test.fn>).mockRejectedValue(new UnauthorizedError('Invalid credentials'));
 
     const res = await inject({ method: 'POST', url: '/auth/login', body: { email: 'alice@example.com', password: 'wrong' } });
 
