@@ -98,16 +98,16 @@ Build
 
 ## Contract Validation
 
-Wire types live in `src/wire/`. After every build, `contracts.json` is generated automatically via the `postbuild` script and published to the contract registry.
-
-To add metadata to a wire type for richer kanly logs:
+Wire types live in `src/wire/`. They are defined with `createSchema` and `field.*`:
 
 ```ts
-static describe() {
-  return {
-    _meta: { method: 'POST', path: '/users/authenticate' },
-    email: { type: 'string' },
-    password: { type: 'string' },
-  };
-}
+import { createSchema, field } from '@enxoval/types';
+
+export const AtreidesWireIn = createSchema({
+  id: field.uuid(),
+  email: field.string(),
+  role: field.string(),
+});
 ```
+
+After every build, `contracts.json` is auto-generated via the `postbuild` script and published to [dune-lab/contracts](https://github.com/dune-lab/contracts). kanly reads this registry on every PR and validates that each consumer's `wire_in` fields are compatible with the producer's `wire_out`.
