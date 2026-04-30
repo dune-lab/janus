@@ -6,7 +6,7 @@ Named after Janus, the two-faced Roman god — one face looks at who you are, th
 
 ## Stack
 
-- Node.js 24 + TypeScript
+- Node.js 22 + TypeScript
 - Fastify (via `@enxoval/http`)
 - JWT HS256 (via `@enxoval/auth`)
 - No DB — stateless
@@ -17,12 +17,6 @@ Named after Janus, the two-faced Roman god — one face looks at who you are, th
 cp .env.example .env
 npm install
 npm run dev
-```
-
-Or with Docker (from `platform/`):
-
-```bash
-docker-compose up janus
 ```
 
 Default port: **3003**
@@ -48,7 +42,7 @@ curl -X POST http://localhost:3003/auth/login \
 { "token": "<jwt>" }
 ```
 
-The JWT payload contains `userId` and `role`. Pass it as `Authorization: Bearer <token>` on all subsequent requests to `imperium`.
+The JWT payload contains `userId` and `role`. Pass it as `Authorization: Bearer <token>` on all subsequent requests.
 
 ## Flow
 
@@ -75,8 +69,45 @@ client → POST /auth/login
 ## Scripts
 
 ```bash
-npm run dev      # dev server with hot reload
-npm run build    # compile TypeScript
-npm test         # run all tests
-npm run lint     # check formatting and lint
+npm run dev            # dev server with hot reload
+npm run build          # compile TypeScript + generate contracts.json
+npm test               # run all tests
+npm run integration    # integration tests only
+npm run lint           # check formatting and lint
+npm run lint-fix       # auto-fix formatting
+```
+
+## CI Pipeline
+
+Every PR runs 5 checks in sequence:
+
+```
+Build
+├── Unit Tests        (skipped — no unit tests defined)
+├── Integration Tests
+└── Publish Contracts
+        └── Contract Validation
+```
+
+| Check | Description |
+|-------|-------------|
+| **Build** | Compiles TypeScript, generates `contracts.json` |
+| **Integration Tests** | Tests against atreides HTTP client |
+| **Publish Contracts** | Publishes `contracts.json` to [dune-lab/contracts](https://github.com/dune-lab/contracts) |
+| **Contract Validation** | Runs kanly — validates wire compatibility with atreides |
+
+## Contract Validation
+
+Wire types live in `src/wire/`. After every build, `contracts.json` is generated automatically via the `postbuild` script and published to the contract registry.
+
+To add metadata to a wire type for richer kanly logs:
+
+```ts
+static describe() {
+  return {
+    _meta: { method: 'POST', path: '/users/authenticate' },
+    email: { type: 'string' },
+    password: { type: 'string' },
+  };
+}
 ```
