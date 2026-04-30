@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@enxoval/auth": "^1.0.0",
-    "@enxoval/http": "^1.0.4",
+    "@enxoval/http": "^1.0.5",
     "@enxoval/observability": "^1.0.1",
-    "@enxoval/types": "^1.0.5"
+    "@enxoval/types": "^1.0.6"
   },
   "devDependencies": {
     "@enxoval/quality": "^1.0.1",
