@@ -2,11 +2,12 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY janus/package.json ./package.json
+COPY janus/package-lock.json ./package-lock.json
 RUN npm ci
 
-COPY src ./src
-COPY tsconfig.json ./
+COPY janus/src ./src
+COPY janus/tsconfig.json ./tsconfig.json
 
 RUN npx tsc
 
