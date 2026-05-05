@@ -15,13 +15,13 @@
   },
   "dependencies": {
     "@enxoval/auth": "^1.0.2",
-    "@enxoval/http": "^1.0.21",
+    "@enxoval/http": "^1.0.26",
     "@enxoval/observability": "^1.0.2",
-    "@enxoval/types": "^1.0.24"
+    "@enxoval/types": "^1.0.25"
   },
   "devDependencies": {
     "@enxoval/quality": "^1.0.1",
-    "@enxoval/testing": "^1.0.2",
+    "@enxoval/testing": "^1.0.3",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^24.0.0",
     "jsonwebtoken": "^9.0.2",
