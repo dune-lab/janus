@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY janus/package.json ./package.json
 COPY janus/package-lock.json ./package-lock.json
-RUN npm ci
+RUN npm install
 
 COPY janus/src ./src
 COPY janus/tsconfig.json ./tsconfig.json
