@@ -10,8 +10,7 @@
     "lint": "prettier --check src && eslint src --max-warnings 0",
     "lint-fix": "prettier --write src && eslint src --fix",
     "test": "vitest run --config node_modules/@enxoval/testing/dist/vitest.config.js",
-    "integration": "vitest run --config node_modules/@enxoval/testing/dist/vitest.config.js --project integration",
-    "postbuild": "node node_modules/@enxoval/http/dist/cli/generate-contracts.js"
+    "integration": "vitest run --config node_modules/@enxoval/testing/dist/vitest.config.js --project integration"
   },
   "dependencies": {
     "@enxoval/auth": "^1.0.3",

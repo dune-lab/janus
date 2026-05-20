@@ -16,5 +16,5 @@ export function registerAuthRoutes(): void {
     const user = toAuthUser(raw);
     const session = await login(user);
     return toWireOut(session);
-  });
+  }, { in: { schema: LoginWireIn, name: 'LoginWireIn' }, out: { schema: SessionWireOut, name: 'SessionWireOut' } });
 }
