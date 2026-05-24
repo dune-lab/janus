@@ -19,7 +19,7 @@
     "@enxoval/types": "^1.0.25"
   },
   "devDependencies": {
-    "@enxoval/quality": "^1.0.1",
+    "@enxoval/quality": "^1.0.2",
     "@enxoval/testing": "^1.0.4",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^24.0.0",
